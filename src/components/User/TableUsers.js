@@ -1,7 +1,7 @@
 
 import { useEffect, useState } from 'react';
 import Table from 'react-bootstrap/Table';
-import { fetchAllUser } from '../services/UserService';
+import { fetchAllUser } from '../../services/UserService';
 import ReactPaginate from 'react-paginate';
 import ModalAddNew from './ModalAddNew';
 import ModalEditNew from './ModalEditUser';

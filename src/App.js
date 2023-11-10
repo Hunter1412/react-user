@@ -2,7 +2,7 @@ import { useState } from 'react';
 import './App.scss';
 import Header from './components/Header';
 
-import TableUsers from './components/TableUsers';
+import TableUsers from './components/User/TableUsers';
 import Container from 'react-bootstrap/Container';
 import { ToastContainer } from 'react-toastify';
 

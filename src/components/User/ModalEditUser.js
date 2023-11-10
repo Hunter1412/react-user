@@ -1,32 +1,43 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button, Modal } from 'react-bootstrap';
-import { postCreateUser } from '../services/UserService';
+import { putUpdateUser } from '../../services/UserService';
 import { toast } from 'react-toastify';
 
-const ModalAddNew = (props) => {
-    const { show, handleClose, handleUpdateTable } = props;
+const ModalEditNew = (props) => {
+    const { show, handleClose, handleEditUserFromModal, dataUserEdit } = props;
 
     const [name, setName] = useState("");
     const [job, setJob] = useState("");
+    const [id, setId] = useState(dataUserEdit.id);
 
-    const handleSaveUser = async () => {
-        let res = await postCreateUser(name, job)
-        if (res && res.id) {
+    const handleEditUser = async () => {
+        let res = await putUpdateUser(id, name, job)
+        if (res && res.updatedAt) {
             handleClose();
             setName("");
             setJob("");
-            toast.success("Add new successfully!");
-            handleUpdateTable({ first_name: name, id: res.id });
+            toast.success("Edit this user successfully!");
+            handleEditUserFromModal({
+                first_name: name,
+                id: dataUserEdit.id
+            });
         } else {
             toast.error("Error...");
         }
     }
+
+    useEffect(() => {
+        if (show) {
+            setName(dataUserEdit.first_name);
+        }
+    }, [dataUserEdit]);
+
     return (
         <Modal show={show} onHide={handleClose}
             backdrop="static"
             keyboard={false}>
             <Modal.Header closeButton>
-                <Modal.Title>Add new user</Modal.Title>
+                <Modal.Title>Edit new user</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <div className="form-group mb-3">
@@ -49,12 +60,12 @@ const ModalAddNew = (props) => {
                 <Button variant="secondary" onClick={handleClose}>
                     Close
                 </Button>
-                <Button variant="primary" onClick={() => handleSaveUser()}>
-                    Add new
+                <Button variant="primary" onClick={() => handleEditUser()}>
+                    Confirm
                 </Button>
             </Modal.Footer>
         </Modal>
     );
 }
 
-export default ModalAddNew;
+export default ModalEditNew;
