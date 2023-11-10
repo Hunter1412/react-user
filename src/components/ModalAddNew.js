@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Button, Modal } from 'react-bootstrap';
 import { postCreateUser } from '../services/UserService';
-import {toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 
 const ModalAddNew = (props) => {
     const { show, handleClose, handleUpdateTable } = props;
@@ -22,7 +22,9 @@ const ModalAddNew = (props) => {
         }
     }
     return (
-        <Modal show={show} onHide={handleClose}>
+        <Modal show={show} onHide={handleClose}
+            backdrop="static"
+            keyboard={false}>
             <Modal.Header closeButton>
                 <Modal.Title>Add new user</Modal.Title>
             </Modal.Header>
