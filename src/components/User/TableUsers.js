@@ -1,5 +1,5 @@
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo, useCallback } from 'react';
 import Table from 'react-bootstrap/Table';
 import { fetchAllUser } from '../../services/UserService';
 import ReactPaginate from 'react-paginate';
@@ -7,6 +7,9 @@ import ModalAddNew from './ModalAddNew';
 import ModalEditNew from './ModalEditUser';
 import ModalConfirm from './ModalConfirm';
 import _ from 'lodash';
+import _debounce from 'lodash/debounce';
+
+import './Table.scss';
 
 const TableUsers = (props) => {
 
@@ -20,6 +23,10 @@ const TableUsers = (props) => {
     const [dataUserEdit, setDataUserEdit] = useState({});
     const [dataUserDelete, setDataUserDelete] = useState({});
 
+    const [sortBy, setSortBy] = useState("asc");
+    const [sortField, setSortField] = useState("id");
+
+    const [keyword, setKeyword] = useState('');
 
     const handleClose = () => {
         setShowModal(false);
@@ -71,6 +78,34 @@ const TableUsers = (props) => {
         setShowModalDelete(true);
     }
 
+    const handleSort = (by, field) => {
+        setSortBy(by);
+        setSortField(field);
+
+        let cloneListUsers = _.cloneDeep(listUsers);
+        cloneListUsers = _.orderBy(cloneListUsers, [sortField], [sortBy]);
+        setListUsers(cloneListUsers);
+    }
+
+    const debounceFn = useCallback(_debounce(handleSearch, 1000),[]);
+
+    function handleSearch(term) {
+        if (term) {
+            let cloneListUsers = _.cloneDeep(listUsers);
+            cloneListUsers = cloneListUsers.filter(item => item.email.includes(term));
+            setListUsers(cloneListUsers);
+        } else {
+            getUsers(1);
+        }
+
+    }
+
+    const handleChange = (event) => {
+        setKeyword(event.target.value)
+        debounceFn(event.target.value);
+    };
+
+
     return (<>
         <div className='my-3 add-new'>
             <span className=''>
@@ -79,14 +114,56 @@ const TableUsers = (props) => {
             <button className='my-3 btn btn-success'
                 onClick={() => setShowModal(true)}>Add new user</button>
         </div>
+        <div className="my-3 col-12 col-md-6">
+            <input
+                className="form-control"
+                placeholder="Search by email"
+                value={keyword}
+                onChange={handleChange}
+            />
+        </div>
         <Table striped bordered responsive hover>
             <thead>
                 <tr>
-                    <th>#</th>
-                    <th>Email</th>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>Actions</th>
+                    <th>
+                        <div className="sort-header">
+                            <span>ID&nbsp;</span>
+                            <span>
+                                <i
+                                    className="fa-solid fa-arrow-down-long"
+                                    onClick={() => handleSort("desc", "id")}
+                                ></i>
+                                <i
+                                    className="fa-solid fa-arrow-up-long"
+                                    onClick={() => handleSort("asc", "id")}
+                                ></i>
+                            </span>
+                        </div>
+                    </th>
+                    <th>
+                        <div className='sort-header'>Email</div>
+                    </th>
+                    <th>
+                        <div className='sort-header'>
+                            <span>First Name&nbsp;</span>
+                            <span>
+                                <i
+                                    className="fa-solid fa-arrow-down-long"
+                                    onClick={() => handleSort("desc", "first_name")}
+                                ></i>
+                                <i
+                                    className="fa-solid fa-arrow-up-long"
+                                    onClick={() => handleSort("asc", "first_name")}
+                                ></i>
+                            </span>
+                        </div>
+                    </th>
+                    <th>
+                        <div className='sort-header'>Last Name</div>
+                    </th>
+                    <th>
+                        <div className='sort-header'>Actions</div>
+                    </th>
                 </tr>
             </thead>
             <tbody>
@@ -110,6 +187,7 @@ const TableUsers = (props) => {
                 })}
             </tbody>
         </Table>
+
         <ReactPaginate
             breakLabel="..."
             nextLabel="next >"
