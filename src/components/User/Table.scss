@@ -1,9 +1,15 @@
-.sort-header{
-    display: flex;
-    justify-content: space-around;
+.sort-header {
+  display: flex;
+  justify-content: space-around;
 
-    i{
-        cursor: pointer;
-        padding: 0 2px;
-    }
+  i {
+    cursor: pointer;
+    padding: 0 2px;
+  }
+}
+
+.add-new {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }

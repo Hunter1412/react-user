@@ -1,5 +1,5 @@
 
-import { useEffect, useState, useMemo, useCallback } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import Table from 'react-bootstrap/Table';
 import { fetchAllUser } from '../../services/UserService';
 import ReactPaginate from 'react-paginate';
@@ -10,6 +10,7 @@ import _ from 'lodash';
 import _debounce from 'lodash/debounce';
 
 import './Table.scss';
+import { CSVLink, CSVDownload } from "react-csv";
 
 const TableUsers = (props) => {
 
@@ -27,6 +28,9 @@ const TableUsers = (props) => {
     const [sortField, setSortField] = useState("id");
 
     const [keyword, setKeyword] = useState('');
+
+    const [dataExport, SetDataExport] = useState([]);
+    const [headersExport, SetHeadersExport] = useState([]);
 
     const handleClose = () => {
         setShowModal(false);
@@ -87,8 +91,8 @@ const TableUsers = (props) => {
         setListUsers(cloneListUsers);
     }
 
-    const debounceFn = useCallback(_debounce(handleSearch, 1000),[]);
-
+    //filter by email
+    const debounceFn = useCallback(_debounce(handleSearch, 1000), []);
     function handleSearch(term) {
         if (term) {
             let cloneListUsers = _.cloneDeep(listUsers);
@@ -97,13 +101,25 @@ const TableUsers = (props) => {
         } else {
             getUsers(1);
         }
-
     }
-
     const handleChange = (event) => {
         setKeyword(event.target.value)
         debounceFn(event.target.value);
     };
+
+    const getUsersExport = (event, done) => {
+        if (listUsers && listUsers.length > 0) {
+            let headers = [
+                { label: "Id", key: "id" },
+                { label: "Email", key: "email" },
+                { label: "First Name", key: "first_name" },
+                { label: "Last Name", key: "last_name" }
+            ];
+            SetHeadersExport(headers)
+            SetDataExport(listUsers);
+            done(); //end get data
+        }
+    }
 
 
     return (<>
@@ -111,8 +127,33 @@ const TableUsers = (props) => {
             <span className=''>
                 <h1>List users</h1>
             </span>
-            <button className='my-3 btn btn-success'
-                onClick={() => setShowModal(true)}>Add new user</button>
+            <div>
+                <label htmlFor="upload" className='my-3 btn btn-info'>
+                    <i className="fa-solid fa-file-import me-1"></i>
+                    <span>Import</span>
+                    <input type='file' id='upload' hidden />
+                </label>
+
+                <CSVLink
+                    filename="users.csv"
+                    className='btn btn-warning mx-2'
+                    data={dataExport}
+                    headers={headersExport}
+                    asyncOnClick={true} //await cho fn getUsersExport
+                    onClick={getUsersExport}
+                >
+                    <i className="fa-solid fa-file-export me-1"></i>
+                    <span>Export</span>
+                </CSVLink>
+
+                <button className='my-3 btn btn-success'
+                    onClick={() => setShowModal(true)}>
+                    <i className="fa-solid fa-circle-plus me-1"></i>
+                    <span>
+                        Add new
+                    </span>
+                </button>
+            </div>
         </div>
         <div className="my-3 col-12 col-md-6">
             <input

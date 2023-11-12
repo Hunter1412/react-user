@@ -14,6 +14,10 @@ const Home = () => {
                     <li>CRUD user</li>
                     <li>React Route dom</li>
                     <li>Design App Layout</li>
+                    <li>SortBy id, first name</li>
+                    <li>Filter by email</li>
+                    <li>Export data</li>
+                    <li>Import data</li>
                     <li></li>
                 </ol>
             </div>
