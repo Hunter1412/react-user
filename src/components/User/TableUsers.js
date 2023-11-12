@@ -1,4 +1,3 @@
-
 import { useEffect, useState, useCallback } from 'react';
 import Table from 'react-bootstrap/Table';
 import { fetchAllUser } from '../../services/UserService';
@@ -11,6 +10,8 @@ import _debounce from 'lodash/debounce';
 
 import './Table.scss';
 import { CSVLink, CSVDownload } from "react-csv";
+import Papa from 'papaparse';
+import { toast } from 'react-toastify';
 
 const TableUsers = (props) => {
 
@@ -121,6 +122,31 @@ const TableUsers = (props) => {
         }
     }
 
+    const handleImport = (event) => {
+        if (event?.target?.files[0]) {
+            let file = event.target.files[0];
+            if (file.type !== "text/csv") {
+                return toast.error("Only acept csv file!");
+            }
+            // Parse local CSV file
+            Papa.parse(file, {
+                header: true,
+                complete: function (results) {
+                    let rawCSV = results.data;
+                    if (rawCSV.length <= 0) {
+                        return toast.error("Wrong format csv file");
+                    }
+                    let list = [];
+                    rawCSV.map((item) => {
+                        return item?.email?.length > 0 && list.unshift(item);
+                    });
+                    toast.success("Uploading...");
+                    setListUsers([...list].slice());
+                }
+            });
+        }
+    }
+
 
     return (<>
         <div className='my-3 add-new'>
@@ -131,7 +157,9 @@ const TableUsers = (props) => {
                 <label htmlFor="upload" className='my-3 btn btn-info'>
                     <i className="fa-solid fa-file-import me-1"></i>
                     <span>Import</span>
-                    <input type='file' id='upload' hidden />
+                    <input type='file' id='upload' hidden
+                        onChange={(e) => handleImport(e)}
+                    />
                 </label>
 
                 <CSVLink
