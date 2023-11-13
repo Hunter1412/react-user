@@ -15,9 +15,9 @@ function App() {
         <Header />
         <Container>
           <Routes>
-            {AppRoutes.map((route, index) => {
+            {AppRoutes.map((route) => {
               const { element, ...rest } = route;
-              return <Route key={index} {...rest} element={element} />;
+              return <Route key={element} {...rest} element={element} />;
             })}
           </Routes>
         </Container>

@@ -18,6 +18,8 @@ const Home = () => {
                     <li>Filter by email</li>
                     <li>Export data</li>
                     <li>Import data</li>
+                    <li>Login</li>
+                    <li></li>
                     <li></li>
                 </ol>
             </div>

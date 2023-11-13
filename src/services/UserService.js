@@ -1,3 +1,4 @@
+import { toast } from 'react-toastify';
 import axios from './customize-axios';
 
 const fetchAllUser = async (page) => {
@@ -16,4 +17,13 @@ const deleteUser = async (id) => {
     return await axios.delete(`users/{id}`);
 }
 
-export { fetchAllUser, postCreateUser, putUpdateUser, deleteUser }
+const loginApi = async (email, password) => {
+    try {
+        return await axios.post("login", { email, password });
+    } catch (error) {
+        console.log(`Error:`, error);
+        toast.error("Error");
+    }
+}
+
+export { fetchAllUser, postCreateUser, putUpdateUser, deleteUser, loginApi }

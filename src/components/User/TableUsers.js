@@ -126,7 +126,7 @@ const TableUsers = (props) => {
         if (event?.target?.files[0]) {
             let file = event.target.files[0];
             if (file.type !== "text/csv") {
-                return toast.error("Only acept csv file!");
+                return toast.error("Only accept csv file!");
             }
             // Parse local CSV file
             Papa.parse(file, {
