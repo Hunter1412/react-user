@@ -18,12 +18,7 @@ const deleteUser = async (id) => {
 }
 
 const loginApi = async (email, password) => {
-    try {
-        return await axios.post("login", { email, password });
-    } catch (error) {
-        console.log(`Error:`, error);
-        toast.error("Error");
-    }
+    return await axios.post("login", { email, password });
 }
 
 export { fetchAllUser, postCreateUser, putUpdateUser, deleteUser, loginApi }
