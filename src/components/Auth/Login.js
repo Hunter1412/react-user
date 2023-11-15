@@ -26,7 +26,7 @@ const Login = (props) => {
             return toast.error("Email/Password is required!");
         }
         setLoadingAPI(true);
-        let res = await loginApi(email, password);
+        let res = await loginApi(email.trim(), password);
         if (res?.token) {
 
             loginContext(email, res.token);
@@ -36,10 +36,18 @@ const Login = (props) => {
         }
         setLoadingAPI(false);
     }
+    //submit login
+    const handleKeyDown = (e) => {
+        if (e.keyCode === 13) {
+            handleLogin();
+        }
+    }
 
     const handleGoBack = () => {
         navigate("/");
     }
+
+    
     return (
         <div className="login-container col-12 col-sm-4">
             <h1 className="login-title">Login</h1>
@@ -54,7 +62,9 @@ const Login = (props) => {
                     type={isShowPassword ? "text" : "password"}
                     placeholder="Password"
                     value={password}
-                    onChange={(e) => setPassword(e.target.value)} />
+                    onChange={(e) => setPassword(e.target.value)}
+                    onKeyDown={(e) => handleKeyDown(e)}
+                />
                 <i
                     className={isShowPassword ? "fa-solid fa-eye" : "fa-solid fa-eye-slash"}
                     onClick={() => setIsShowPassword(!isShowPassword)}

@@ -3,12 +3,10 @@ import Home from '../components/Home';
 import TableUsers from '../components/User/TableUsers';
 import { Routes, Route } from 'react-router-dom';
 import PrivateRoute from './PrivateRoute';
-import React, { useContext } from 'react';
-import { UserContext } from '../context/UserContext';
+import NotFound from "../components/NotFound";
+
 
 const AppRoutes = () => {
-    // const { user } = useContext(UserContext);
-    // console.log(`check user>>>`, user);
     return (
         <Routes>
             <Route exact path="/" element={<Home />} />
@@ -21,6 +19,7 @@ const AppRoutes = () => {
                     </PrivateRoute>
                 }
             />
+            <Route path="*" element={<NotFound />} />
         </Routes>
     )
 }

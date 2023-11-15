@@ -20,6 +20,9 @@ const Home = () => {
                     <li>Import data</li>
                     <li>Login</li>
                     <li>useContext</li>
+                    <li>PrivateRoute</li>
+                    <li>NotFound page</li>
+                    <li></li>
                     <li></li>
                 </ol>
             </div>

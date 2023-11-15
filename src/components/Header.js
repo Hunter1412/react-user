@@ -9,7 +9,6 @@ import { UserContext } from '../context/UserContext';
 const Header = (props) => {
 
     const { logout, user } = useContext(UserContext);
-    console.log(`check user>>`, user);
 
     const navigate = useNavigate();
 

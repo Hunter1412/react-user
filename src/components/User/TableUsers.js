@@ -149,38 +149,39 @@ const TableUsers = (props) => {
 
 
     return (<>
-        <div className='my-3 add-new'>
-            <span className=''>
+        <div className='my-3 add-new row'>
+            <div className='col-12 col-sm-4'>
                 <h1>List users</h1>
-            </span>
-            <div>
-                <label htmlFor="upload" className='my-3 btn btn-info'>
-                    <i className="fa-solid fa-file-import me-1"></i>
-                    <span>Import</span>
-                    <input type='file' id='upload' hidden
-                        onChange={(e) => handleImport(e)}
-                    />
-                </label>
+            </div>
+            <div className='col-12 col-sm-8'>
+                <div className='d-flex justify-content-sm-end'>
+                    <label htmlFor="upload" className='my-3 btn btn-info'>
+                        <i className="fa-solid fa-file-import me-1"></i>
+                        <span>Import</span>
+                        <input type='file' id='upload' hidden
+                            onChange={(e) => handleImport(e)}
+                        />
+                    </label>
+                    <CSVLink
+                        filename="users.csv"
+                        className='btn btn-warning m-3'
+                        data={dataExport}
+                        headers={headersExport}
+                        asyncOnClick={true} //await cho fn getUsersExport
+                        onClick={getUsersExport}
+                    >
+                        <i className="fa-solid fa-file-export me-1"></i>
+                        <span>Export</span>
+                    </CSVLink>
 
-                <CSVLink
-                    filename="users.csv"
-                    className='btn btn-warning mx-2'
-                    data={dataExport}
-                    headers={headersExport}
-                    asyncOnClick={true} //await cho fn getUsersExport
-                    onClick={getUsersExport}
-                >
-                    <i className="fa-solid fa-file-export me-1"></i>
-                    <span>Export</span>
-                </CSVLink>
-
-                <button className='my-3 btn btn-success'
-                    onClick={() => setShowModal(true)}>
-                    <i className="fa-solid fa-circle-plus me-1"></i>
-                    <span>
-                        Add new
-                    </span>
-                </button>
+                    <button className='my-3 btn btn-success'
+                        onClick={() => setShowModal(true)}>
+                        <i className="fa-solid fa-circle-plus me-1"></i>
+                        <span>
+                            Add new
+                        </span>
+                    </button>
+                </div>
             </div>
         </div>
         <div className="my-3 col-12 col-md-6">
