@@ -6,7 +6,7 @@ const UserContext = React.createContext({ email: '', auth: false });
 // Create function to provide UserContext
 const UserProvider = ({ children }) => {
     // User is the email of the "data" that gets stored in context
-    const [user, setUser] = useState({ email: '', auth: true });
+    const [user, setUser] = useState({ email: '', auth: false });
 
     // Login updates the user data with a email parameter
     const loginContext = (email, token) => {

@@ -9,6 +9,7 @@ import { UserContext } from '../context/UserContext';
 const Header = (props) => {
 
     const { logout, user } = useContext(UserContext);
+    console.log(`check user>>`, user);
 
     const navigate = useNavigate();
 
@@ -21,16 +22,16 @@ const Header = (props) => {
         <header>
             <Navbar expand="lg" className="bg-body-tertiary">
                 <Container>
-                    <NavbarBrand tag={Link} to="/" className='navbar-brand'>
+                    <NavLink tag={Link} to="/" className='navbar-brand'>
                         <img
                             src={logoApp}
                             width="30" height="30"
                             className="d-inline-block align-top" alt="logo" />
                         <span>React-Bootstrap</span>
-                    </NavbarBrand>
+                    </NavLink>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
-                        {(window.location.pathname !== '/login') &&
+                        {((user && user.auth === true) || window.location.pathname !== "/login") &&
                             <>
                                 <Nav className="me-auto">
                                     <NavItem>
@@ -41,7 +42,7 @@ const Header = (props) => {
                                     </NavItem>
                                 </Nav>
                                 <Nav>
-                                    {user && user.auth === true && user.email &&
+                                    {user && user.auth === true &&
                                         <NavItem>
                                             <span className='nav-link'>Welcome {user.email}</span>
                                         </NavItem>
@@ -56,7 +57,8 @@ const Header = (props) => {
                                             </NavItem>
                                             :
                                             <NavItem>
-                                                <NavLink tag={Link} to="/login" className='dropdown-item'>Login</NavLink>
+                                                <NavLink tag={Link} to="/login"
+                                                    className='dropdown-item'>Login</NavLink>
                                             </NavItem>
                                         }
                                     </NavDropdown>
