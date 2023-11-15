@@ -22,8 +22,8 @@ const Home = () => {
                     <li>useContext</li>
                     <li>PrivateRoute</li>
                     <li>NotFound page</li>
-                    <li></li>
-                    <li></li>
+                    <li>Redux</li>
+                    <li>Error Boundaries</li>
                 </ol>
             </div>
         </div>

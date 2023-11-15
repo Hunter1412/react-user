@@ -8,13 +8,17 @@ import { BrowserRouter } from "react-router-dom";
 import store from './redux/store';
 import { Provider } from 'react-redux';
 
+import ErrorBoundary from "./components/ErrorBoundaries/ErrorBoundary.js";
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <Provider store={store}>
     <React.StrictMode>
-        <BrowserRouter>
+      <BrowserRouter>
+        <ErrorBoundary>
           <App />
-        </BrowserRouter>
+        </ErrorBoundary>
+      </BrowserRouter>
     </React.StrictMode>
   </Provider>
 );
