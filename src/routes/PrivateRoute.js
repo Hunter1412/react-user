@@ -1,11 +1,10 @@
-import { useContext } from 'react';
 import { Navigate } from 'react-router-dom';
-import { UserContext } from '../context/UserContext';
 import { Alert } from 'react-bootstrap';
+import { useSelector } from 'react-redux';
 
 
 const PrivateRoute = ({ children }) => {
-    const { user } = useContext(UserContext);
+    const user = useSelector(state => state.user.account);
 
     if (user && user.auth === false) {
         return (
@@ -16,7 +15,7 @@ const PrivateRoute = ({ children }) => {
         )
     }
 
-    return user && user.auth === true ? children : <Navigate to="/login" />;
+    return user && user.auth === true ? children : <Navigate to="/" />;
 }
 
 export default PrivateRoute;

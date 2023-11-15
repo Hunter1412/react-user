@@ -3,20 +3,30 @@ import { Nav, Navbar, NavbarBrand, NavDropdown, NavItem } from 'react-bootstrap'
 import logoApp from '../assets/images/logo192.png';
 import { NavLink, Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { UserContext } from '../context/UserContext';
+import { useDispatch, useSelector } from 'react-redux';
+import { handleLogoutRedux } from "../redux/actions/userAction";
 
 const Header = (props) => {
-
-    const { logout, user } = useContext(UserContext);
-
     const navigate = useNavigate();
 
+    const user = useSelector(state => state.user.account);
+
+    const dispatch = useDispatch();
     const handleLogout = () => {
-        logout();
+        dispatch(handleLogoutRedux());
         navigate("/");
         toast.success("Log out successfully!");
     }
+
+    // useEffect(() => {
+    //     if (user && user.auth === false) {
+    //         navigate("/");
+    //         toast.success("Log out successfully!");
+    //     }
+    // }, [user])
+
     return (
         <header>
             <Navbar expand="lg" className="bg-body-tertiary">
